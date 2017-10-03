@@ -35,7 +35,7 @@ gem 'rake', '< 11.0'
 gem 'bootstrap-sass', '~>3.3.6'
 gem 'autoprefixer-rails', '~>6.3.7'
 gem 'devise', '~>4.2.0'
-
+gem 'paperclip', '~> 4.1'
 
 
 group :development, :test do
