@@ -4,6 +4,7 @@ class ArticlesController < ApplicationController
   
   def index
     @articles = Article.all
+    @article = Article.new
   end
   
   def new
@@ -13,12 +14,23 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     @article.user = current_user
-    if @article.save
-      flash[:sucess] = "Article has been created"
-      redirect_to articles_path
-    else
-      flash.now[:danger] = "Article has not been created"
-      render :new
+    respond_to do |format|
+      if @article.save
+        format.html { 
+          flash[:sucess] = "Article has been created"
+          redirect_to articles_path, 
+          notice: 'Article has been created'
+        }
+        format.json { render :show, status: :created, location: @article}
+        format.js
+      else
+        format.html { 
+          flash.now[:danger] = "Article has not been created"
+          render :new 
+        }
+        format.json { render json: @article.errors, status: :unprocessable_entity}
+        format.js
+      end
     end
   end
   
@@ -48,19 +60,14 @@ class ArticlesController < ApplicationController
   end
   
   def destroy 
-    puts "esta en destroy"
     unless @article.user == current_user
-    puts 1
       flash[:danger] = "You can only delete your own article."
       redirect_to articles_path
     else
-      puts 2
       if @article.destroy
-        puts 3
         flash[:success] = "Article has been deleted"
         redirect_to articles_path
       else
-        puts 4
         flash.now[:danger] = "Article has not been deleted"
         redirect_to articles_path
       end

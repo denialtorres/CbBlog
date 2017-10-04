@@ -1,0 +1,25 @@
+
+
+<div class="col-md-4 blog-main box text-center" id="post_<%= article.id %>">
+
+            <div class="panel panel-info"><!-- Panel Info -->
+
+                  <div class="panel-heading">
+                    <h3 class="panel-title">
+                       <%= link_to article.title, article_path(article) %>
+                    </h3>
+                    <p>
+                      <%= truncate(article.body, length: 500) %>
+                    </p>
+                    <div class="author">
+                      <small>Created by: <%= article.user.email %></small>
+                    </div>
+                  </div>
+
+                  <div class="panel-body"><!-- Panel Body -->
+                    <div style="color: #3BB2D6;"><%= time_ago_in_words(article.created_at) %></div>
+                    <br><!-- Panel Body -->
+                  </div><!-- Panel Info -->
+
+</div>
+</div>
